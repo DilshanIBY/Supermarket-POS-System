@@ -1,3 +1,7 @@
+/*==========================================================
+||                       Procedure                        ||
+==========================================================*/
+
 -- ==========================================
 -- Procedure Name: sp_InsertCustomer
 -- Description: Inserts a new customer into the Customer table and logs the action in AuditLog
@@ -130,6 +134,9 @@ BEGIN
     END CATCH
 END
 
+/*==========================================================
+||                       Triggers                         ||
+==========================================================*/
 
 -- ==========================================
 -- Trigger Name: trg_UpdateStockAfterSale
