@@ -1,3 +1,11 @@
+/*==========================================================
+||                  CUSTOMER MANAGEMENT                   ||
+==========================================================*/
+
+/*-----------------------------------------------
+-- Creating Customer table
+-----------------------------------------------*/
+
 -- Customer Management
 CREATE TABLE Customer (
     CustomerID INT PRIMARY KEY IDENTITY(1,1),
@@ -12,11 +20,23 @@ CREATE TABLE Customer (
     RegistrationDate DATE NOT NULL
 );
 
--- Reporting and Administrative Data
+
+/*==========================================================
+||          REPORTING AND ADMINISTRATIVE DATA             ||
+==========================================================*/
+
+/*-----------------------------------------------
+-- Creating Role table
+-----------------------------------------------*/
+
 CREATE TABLE Role (
     RoleID INT PRIMARY KEY IDENTITY(1,1),
     RoleName NVARCHAR(100) NOT NULL
 );
+
+/*-----------------------------------------------
+-- Creating Employee table
+-----------------------------------------------*/
 
 CREATE TABLE Employee (
     EmployeeID INT PRIMARY KEY IDENTITY(1,1),
@@ -29,6 +49,10 @@ CREATE TABLE Employee (
     FOREIGN KEY (RoleID) REFERENCES Role(RoleID)
 );
 
+/*-----------------------------------------------
+-- Creating AuditLog table
+-----------------------------------------------*/
+
 CREATE TABLE AuditLog (
     LogID INT PRIMARY KEY IDENTITY(1,1),
     Action NVARCHAR(255) NOT NULL,
@@ -37,6 +61,10 @@ CREATE TABLE AuditLog (
     TableName NVARCHAR(100),
     FOREIGN KEY (PerformedBy) REFERENCES Employee(EmployeeID)
 );
+
+/*-----------------------------------------------
+-- Creating Report table
+-----------------------------------------------*/
 
 CREATE TABLE Report (
     ReportID INT PRIMARY KEY IDENTITY(1,1),
@@ -48,21 +76,41 @@ CREATE TABLE Report (
     FOREIGN KEY (GeneratedBy) REFERENCES Employee(EmployeeID)
 );
 
--- Product and Stock Management
+
+/*==========================================================
+||          PRODUCT AND STOCK MANAGEMENT MODULE           ||
+==========================================================*/
+
+/*-----------------------------------------------
+-- Creating Category table
+-----------------------------------------------*/
+
 CREATE TABLE Category (
     CategoryID INT PRIMARY KEY IDENTITY(1,1),
     CategoryName NVARCHAR(100) NOT NULL
 );
+
+/*-----------------------------------------------
+-- Creating Brand table
+-----------------------------------------------*/
 
 CREATE TABLE Brand (
     BrandID INT PRIMARY KEY IDENTITY(1,1),
     BrandName NVARCHAR(100) NOT NULL
 );
 
+/*-----------------------------------------------
+-- Creating TaxRate table
+-----------------------------------------------*/
+
 CREATE TABLE TaxRate (
     TaxRateID INT PRIMARY KEY IDENTITY(1,1),
     TaxRate DECIMAL(5, 2) NOT NULL
 );
+
+/*-----------------------------------------------
+-- Creating Product table
+-----------------------------------------------*/
 
 CREATE TABLE Product (
     ProductID INT PRIMARY KEY IDENTITY(1,1),
@@ -78,6 +126,10 @@ CREATE TABLE Product (
     FOREIGN KEY (TaxRateID) REFERENCES TaxRate(TaxRateID)
 );
 
+/*-----------------------------------------------
+-- Creating Warehouse table
+-----------------------------------------------*/
+
 CREATE TABLE Warehouse (
     WarehouseID INT PRIMARY KEY IDENTITY(1,1),
     WarehouseName NVARCHAR(150) NOT NULL,
@@ -85,6 +137,10 @@ CREATE TABLE Warehouse (
     ManagerID INT,
     FOREIGN KEY (ManagerID) REFERENCES Employee(EmployeeID)
 );
+
+/*-----------------------------------------------
+-- Creating Stock table
+-----------------------------------------------*/
 
 CREATE TABLE Stock (
     StockID INT PRIMARY KEY IDENTITY(1,1),
@@ -96,7 +152,15 @@ CREATE TABLE Stock (
     FOREIGN KEY (WarehouseID) REFERENCES Warehouse(WarehouseID)
 );
 
--- Discount Management
+
+/*==========================================================
+||              DISCOUNT MANAGEMENT MODULE                ||
+==========================================================*/
+
+/*-----------------------------------------------
+-- Creating Discount table
+-----------------------------------------------*/
+
 CREATE TABLE Discount (
     DiscountID INT PRIMARY KEY IDENTITY(1,1),
     DiscountName NVARCHAR(150) NOT NULL,
@@ -106,6 +170,10 @@ CREATE TABLE Discount (
     DiscountType NVARCHAR(50) NOT NULL
 );
 
+/*-----------------------------------------------
+-- Creating ProductDiscount table
+-----------------------------------------------*/
+
 CREATE TABLE ProductDiscount (
     ProductDiscountID INT PRIMARY KEY IDENTITY(1,1),
     ProductID INT NOT NULL,
@@ -114,11 +182,23 @@ CREATE TABLE ProductDiscount (
     FOREIGN KEY (DiscountID) REFERENCES Discount(DiscountID)
 );
 
--- Sales Management
+
+/*==========================================================
+||                SALES MANAGEMENT MODULE                 ||
+==========================================================*/
+
+/*-----------------------------------------------
+-- Creating PaymentMethod table
+-----------------------------------------------*/
+
 CREATE TABLE PaymentMethod (
     PaymentMethodID INT PRIMARY KEY IDENTITY(1,1),
     PaymentType NVARCHAR(100) NOT NULL
 );
+
+/*-----------------------------------------------
+-- Creating SalesTransaction table
+-----------------------------------------------*/
 
 CREATE TABLE SalesTransaction (
     TransactionID INT PRIMARY KEY IDENTITY(1,1),
@@ -132,6 +212,10 @@ CREATE TABLE SalesTransaction (
     FOREIGN KEY (PaymentMethodID) REFERENCES PaymentMethod(PaymentMethodID)
 );
 
+/*-----------------------------------------------
+-- Creating SalesTransactionDetail table
+-----------------------------------------------*/
+
 CREATE TABLE SalesTransactionDetail (
     TransactionDetailID INT PRIMARY KEY IDENTITY(1,1),
     TransactionID INT NOT NULL,
@@ -142,5 +226,3 @@ CREATE TABLE SalesTransactionDetail (
     FOREIGN KEY (TransactionID) REFERENCES SalesTransaction(TransactionID),
     FOREIGN KEY (ProductID) REFERENCES Product(ProductID)
 );
-
-
